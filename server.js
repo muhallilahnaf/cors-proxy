@@ -24,14 +24,20 @@ app.all('*', function (req, res, next) {
             res.send(500, { error: 'There is no Target-URL header in the request' });
             return;
         }
-        request({ url: targetURL, method: req.method, json: req.body },
-            function (error, response, body) {
-                if (error) {
-                    console.error('error: ' + response.statusCode)
-                }
-                // console.log(body);
-                // console.log(response);
-            }).pipe(res);
+        request({
+            url: targetURL,
+            method: req.method,
+            json: req.body,
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36'
+            }
+        }, function (error, response, body) {
+            if (error) {
+                console.error('error: ' + response.statusCode)
+            }
+            // console.log(body);
+            // console.log(response);
+        }).pipe(res);
     }
 });
 
