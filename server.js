@@ -24,7 +24,7 @@ app.all('*', function (req, res, next) {
             res.send(500, { error: 'There is no Target-URL header in the request' });
             return;
         }
-        request({ url: targetURL, method: req.method, json: req.body, headers: { 'Authorization': req.header('Authorization') } },
+        request({ url: targetURL, method: req.method, json: req.body },
             function (error, response, body) {
                 if (error) {
                     console.error('error: ' + response.statusCode)
