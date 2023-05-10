@@ -1,6 +1,7 @@
 var express = require('express'),
     request = require('request'),
     bodyParser = require('body-parser'),
+    url = require('url'),
     app = express();
 
 var myLimit = typeof (process.argv[2]) != 'undefined' ? process.argv[2] : '100kb';
@@ -29,7 +30,8 @@ app.all('*', function (req, res, next) {
             method: req.method,
             json: req.body,
             headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36'
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36',
+                'Host': url.parse(targetURL).hostname
             }
         }, function (error, response, body) {
             if (error) {
