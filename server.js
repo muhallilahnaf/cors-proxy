@@ -20,18 +20,31 @@ app.all('*', function (req, res, next) {
         // CORS Preflight
         res.send();
     } else {
+        // console.log(req.headers);
         var targetURL = req.header('Target-URL');
         if (!targetURL) {
             res.send(500, { error: 'There is no Target-URL header in the request' });
             return;
         }
+        console.log(targetURL);
+        var hostname = url.parse(targetURL).hostname;
         request({
             url: targetURL,
             method: req.method,
             json: req.body,
             headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36',
-                'Host': url.parse(targetURL).hostname
+                'Host': hostname,
+                'Accept': '*/*',
+                'Accept-Encoding': 'gzip, deflate, br',
+                'Accept-Language': 'en-US,en;q=0.9,bn;q=0.8',
+                'Referer': `https://${hostname}/`,
+                'Sec-Ch-Ua': '"Google Chrome";v="113", "Chromium";v="113", "Not-A.Brand";v="24"',
+                'Sec-Ch-Ua-Mobile': '?0',
+                'Sec-Ch-Ua-Platform': '"Windows"',
+                'Sec-Fetch-Dest': 'empty',
+                'Sec-Fetch-Mode': 'cors',
+                'Sec-Fetch-Site': 'same-origin',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36',
             }
         }, function (error, response, body) {
             if (error) {
